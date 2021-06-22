@@ -1,0 +1,1 @@
+const getStudent = (req, res)
