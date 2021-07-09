@@ -1,0 +1,141 @@
+body {
+  font-family: Arial, Helvetica, sans-serif;
+  padding: 3px;
+  background-image: url('clg.jpeg');
+}
+
+input[type=text], input[type=password], input[type=email]{
+  width: 100%;
+  padding: 12px 20px;
+  margin: 8px 0;
+  display: inline-block;
+  border: 1px solid #ccc;
+  box-sizing: border-box;
+}
+
+button {
+  background-color: #0088CC;  
+  color: white;
+  padding: 14px 20px;
+  margin: 8px 0;
+  border: none;
+  cursor: pointer;
+  width: 100%;
+  font-size: 17px;
+}
+
+button:hover {
+  opacity: 0.8;
+}
+
+.logocontainer{
+  text-align: center;
+  margin: 24px 0 12px 0;
+}
+
+img.logo{
+  width: 50%;
+  height: 100%;
+}
+
+.imgcontainer {
+  text-align: center;
+  margin: 24px 0 12px 0;
+}
+
+img.avatar {
+  width: 100%;
+  border-radius: 50%;
+}
+
+form {
+    border: 2px solid black;
+    padding:20px 50px 70px 50px;
+    margin-top:200px;
+    width:40%;
+    margin: auto;
+    margin-bottom:100px;
+}
+
+span.psw {
+  float: right;
+  padding-top: 16px;
+}
+  span.psw {
+     display: block;
+     float: none;
+  }
+  .cancelbtn {
+     width: 100%;
+  }
+
+img{
+    width: 760px;
+    height: 100px;
+}
+
+.blue{
+    background-color:#0088CC;
+    padding: 10px;
+    color:black;
+    text-align: center;
+    margin-bottom: 80px;
+    font-size:20px; 
+}
+
+fieldset{
+  border: 0px;
+}
+
+#footer{
+    background-color: #2d2e2e; 
+    color: #7f8082; 
+    padding: 10px;
+    line-height: 30px;
+    display: inline-block;
+}
+
+.about{
+  display: inline-block;
+  float: left;
+  width: 80%;
+  padding-left: 25px;
+  font-size: 25px;
+  line-height: 40px;
+}
+
+.copyright{
+  display: block;
+}
+
+.contact-us{
+  display: inline-block;
+}
+
+h3{
+  float: right;
+  margin-right: 220px;
+}
+
+#icons{
+  float: right;
+  margin-right: 130px;
+}
+
+i{
+  margin: 10px;
+  font-size: 30px;
+}
+
+a{
+  color: #f7f9fa;
+}
+
+strong{
+  color: #f7f9fa;
+}
+
+input:invalid{
+    border-bottom-color: red;
+    border-right-color: red;
+}

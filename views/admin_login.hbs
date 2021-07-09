@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+     <meta charset="UTF-8">
+	<title>Login</title>
+        <link rel="stylesheet" href="css/login.css">
+        <script src="https://kit.fontawesome.com/0059d2346d.js" crossorigin="anonymous"></script>
+    </head>
+<body>
+   <img src= "header.png" alt= "logo" >
+    <div class="blue"><TT>EXAM FORM SUBMISSION SYSTEM</TT></div>
+ 
+  <form action='/autha/adminlogin' name='form' method"POST">
+  <div class="imgcontainer">
+    <img src="admin.svg" alt="Avatar" class="avatar">
+  </div>
+
+  <div>
+    {{#if message}}
+      <h4 class="alert alert-danger mt-4">{{message}}</h4>
+    {{/if}}
+    <label ><b>Email</b>
+    <input type="email" placeholder="Enter your bmsce mail id" name="email" pattern="[a-zA-Z0-9+_.]+@bmsce.ac.in"required></label>
+
+    <label ><b>Password</b>
+    <input type="password" placeholder="Enter Password" name="pass" minlength="8"required></label>
+      <input type="checkbox" checked="checked" name="remember">      Remember me
+    
+      <button type="submit">Login</button>
+      
+
+  <span class="psw"><a href='forgot_password.html' style="color:blue">Forgot password?<br></a>
+ <a href='login.html' style="color:blue">Are you a student?</a></span>
+      
+      </div>
+</form>
+
+<footer id="footer">
+    <p class="about">B.M.S. College of Engineering (BMSCE) was Founded in the year 1946 by Late Sri. B. M. Sreenivasaiah a great visionary and philanthropist and nurtured by his illustrious son Late Sri. B. S. Narayan. BMSCE is the first private sector initiative in engineering education in India. BMSCE has completed 70+ years of dedicated service in the field of Engineering Education. <a href="https://bmsce.ac.in/home/About-BMSCE">Know More</a></p>
+    <h3>Contact Us</h3>
+    <ul class="contact-us">
+        <li><strong>Address:</strong>
+        <br /> P.O. Box No.: 1908, Bull Temple Road,
+        <br /> Bangalore - 560 019
+        <br />Karnataka, India.
+        </li>
+        <li><strong>Fax:</strong>
+            <br />+91-80-26614357
+        </li>
+        <li><strong>Email:</strong>
+        <br /><a href="mailto:mail@example.com">info@bmsce.ac.in</a>
+        </li>
+    </ul>
+    <div id="icons">
+    <a href="https://www.instagram.com/"><i class="fab fa-instagram"> </i></a>
+    <a href="https://www.facebook.com/bmsce.official"><i class="fab fa-facebook"></i></a>
+    <a href="https://twitter.com/?lang=en"><i class="fab fa-twitter"></i></a>
+    <a href="https://www.linkedin.com/authwall?trk=gf&trkInfo=AQENGHT1TgwK7QAAAXZq5KygBlHnGUtHSItHhXmvxk5TeadeZBSQHIHtyhl5QHsmVbUgh13F-Qd4FNtCMIyF5lmkZBN0WZQSjZ95rBzmFWoYbRpyvx9cbyeqQzfCO5Qm9Z8Fqk8=&originalReferer=https://bmsce.ac.in/&sessionRedirect=https%3A%2F%2Fwww.linkedin.com%2Fcompany%2Fbmsce-official%2F"><i class="fab fa-linkedin"></i></a>
+    </div>
+    <div class="Copyright"><p>© Copyright 2019. All Rights Reserved.</p></div>
+</footer>
+  
+</body>
+</html>
