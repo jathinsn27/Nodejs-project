@@ -1,8 +1,11 @@
 const express = require('express')
-const authController = require('../controllers/autha');
+const authaController = require('../controllers/autha');
 
 const router = express.Router();
 
-router.post('/adminlogin', authController.adminlogin)
+router.post('/adminlogin', authaController.adminlogin)
+router.get('/adminLogout', authaController.adminLogout)
+router.post('/adminregister', authaController.adminregister)
+router.post('/admin1', authaController.admin1)
 
 module.exports = router;

@@ -2,6 +2,7 @@ const express = require('express')
 const path = require('path')
 const router = express.Router()
 const authController = require('../controllers/auth')
+const jwt = require('jsonwebtoken')
 
 const app = express()
 
@@ -17,8 +18,10 @@ router.get('/student/forgot_password', (req, res) => {
     res.render("forgot_password")
 })
 
-router.get('/student/forgot_password2', (req, res) => {
-    //res.sendFile(path.resolve('./public/forgot_password.html'))
+router.get('/student/forgot_password2/:jwt', (req, res) => {
+    let mail_token = req.params.jwt
+    exports.mail_token = mail_token
+    // const decode = jwt.decode(req.params.jwt)
     res.render("forgot_password2")
 })
 
@@ -46,5 +49,5 @@ router.get('/student/confirm', (req, res) => {
 })
 
 module.exports = router
-
+// exports.mail_token = mail_token
 

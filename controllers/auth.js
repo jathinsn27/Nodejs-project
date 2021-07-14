@@ -4,19 +4,12 @@ const db = require('../database')
 const { promisify } = require('util')
 const PASSWORD_HASH_SECRET = 8;
 var nodemailer = require('nodemailer');
- 
-//  const signin =(req, res) => {
-//      const { email, pass } = req.body
-//      db.get().query('SELECT email, password FROM student_signup WHERE email = ?', [email], async (error, results) => {
-//         console.log('database:' ,results)
-//         // Load hash from your password DB.
-//         bcrypt.compare(pass, results[0].hashedPassword, function(err, result) {
-//         // result == true
-//             console.log('Password result: ',results);
-//         });
-//      })
-// }
+const _ = require('lodash')
+const express = require('express')
+const student = require('../routes/student')
 
+const app = express()
+ 
 const signin = async (req, res, next) => {
     const { email, pass } = req.body
 
@@ -53,16 +46,8 @@ const signin = async (req, res, next) => {
 
         res.cookie('jatins_cookie', token, cookieOptions)
         res.status(200).redirect('/student/examform')
-        //res.status(200).render('examform')
        }
     })
-
-     
-    // console.log("hello world")
-    // console.log(req.body)
-    // res.status(200).send({
-    //     message: "Request successful"
-    // })
 }
 
 const register = (req, res) => {
@@ -110,14 +95,9 @@ const register = (req, res) => {
 
 
     })
-    // response.status(201).send({
-    //     message: 'Registered successfully'
-    // })
-    //res.redirect('/student')
 }
 
 const isLoggedIn = async (req, res, next) => {
-    //console.log(req.cookies)
     if( req.cookies.jatins_cookie){
         try{
             const decoded = await promisify(jwt.verify)(req.cookies.jatins_cookie, process.env.JWT_SECRET)
@@ -188,27 +168,25 @@ const examform = (req, res) => {
         else{
             console.log(results)
             res.status(200).redirect('../student/confirm')
-            // return res.status(201).render('confirm', {
-            //     message: 'Form Submitted'
-            // })
         }
     })
 }
 
 const forgotpassword =(req, res) => {
     const { email } = req.body;
-    db.get().query('SELECT email FROM student_signup WHERE email = ?', [email], async (error, results) => {
+    console.log(req.params.jwt);
+    const decode = jwt.decode(req.params.jwt);
+    console.log(decode)
+    db.get().query('SELECT email, sno FROM student_signup WHERE email = ?', [email],  (error, results) => {
         if(error){
             console.log(error);
-        }
-    
-        else if( results.length = 0 ){
+        } else if( results.length === 0 ){
             return res.render('signup', {
                 message: 'Email doesnot exist'
             })
-        }
-    else{
-    var transporter = nodemailer.createTransport({
+        } else{
+            const id = results[0].sno;
+    let transporter = nodemailer.createTransport({
         service: 'gmail',
         auth: {
           user: 'testingdummybms@gmail.com',
@@ -219,22 +197,21 @@ const forgotpassword =(req, res) => {
       try {
           const emailToken = jwt.sign(
             {
-              user: _.pick(user, 'id'),
+              user: id,
             },
-            EMAIL_SECRET,
+            process.env.JWT_SECRET,
             {
               expiresIn: '1d',
             },
             )
-
+            console.log(emailToken);
             const url = `http://localhost:3000/student/forgot_password2/${emailToken}`
 
       var mailOptions = {
         from: 'testingdummybms@gmail.com',
         to: email,  //email
         subject: 'Password update mail',
-        // text: 'That was easy!'
-        html: '<h1>Welcome</h1> <a href="${url}">Click here to reset password</a>'
+        html: `<h1>Welcome</h1> <a href="${url}">Click here to reset password</a>`
       };
       
     transporter.sendMail(mailOptions, function(error, info){
@@ -251,9 +228,46 @@ const forgotpassword =(req, res) => {
 })
 }
 
-const forgotpassword2 =(req, res) => {
+const forgotpassword2 = async (req, res) => {
     const { password1, password2 } = req.body;
-    db.get().query('SELECT email FROM student_signup WHERE email = ?', [])
+    console.log(password1)
+    mail_token=student.mail_token
+    console.log(mail_token);
+    const decode = jwt.decode(mail_token)
+    console.log(decode)
+    console.log(decode.user)
+    const id = decode.user
+    let hashedPassword = await bcrypt.hash(password1, PASSWORD_HASH_SECRET)
+    console.log(hashedPassword)
+    let sql = `UPDATE student_signup SET password='${hashedPassword}' WHERE sno='${id}'`
+    db.get().query(sql, (error, results) => {
+        if(error){
+            console.error(error)  
+        }
+        else{
+            console.log(results)
+            res.status(200).redirect('../student')               
+        }
+    })
+    
+    // db.get().query('SELECT sno FROM student_signup WHERE sno = ?', [sno], (err, results) => { 
+    //     if(err){
+    //         console.error(err)
+    //     }
+    //     else{
+    //         console.log(results)
+    //         // db.get().query(`UPDATE student_signup SET password=${password1} WHERE sno=id`,{
+
+    //         // })
+    //         // if(error){
+    //         //     console.error(error)  
+    //         // }
+    //         // else{
+    //         //     console.log(results)
+    //         //     res.status(200).redirect('../student')               
+    //         //}
+    //     }
+    // })
 }
 
 module.exports = {
