@@ -40,16 +40,22 @@
 					<th>Usn</th>
 					<th>Registration</th>
 					<th>Status</th></tr>
+
+					{{#each result}}
 					<tr>
-						<td>1</td>
-						<td>{{sem1.name}}</td>
-						<td>{{sem1.usn}}</td>
-						<td>{{sem1.registration}}</td>
-						<td>Applied</td>
+					    <td>{{@index}}</td>
+						<td>{{this.name}}</td>
+						<td>{{this.usn}}</td>
+						<td>{{this.regisrtration}}</td>
+						<td>Applied</td> 
 					</tr>
-					<tr>
+					{{/each}}
+
+					
+
+					{{!-- <tr>
 						<td>2</td>
-						<td>john</td>
+						<td>{{sem1}}</td>
 						<td>1BM19CS002</td>
 						<td>Registered</td>
 						<td>Applied</td>
@@ -109,7 +115,7 @@
 						<td>1BM19CS010</td>
 						<td>Re-Registered</td>
 						<td>Not Applied</td>
-					</tr>
+					</tr>  --}}
 				</tbody>
 			</table><br><br>
 			<button>Summary</button>

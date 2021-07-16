@@ -3,22 +3,29 @@ const path = require('path')
 const router = express.Router()
 const authaController = require('../controllers/autha')
 
-//let { admin } = require('../data')
+
 
 router.get('/', (req, res) => {
-    // console.log('/admin route')
-    //res.sendFile(path.resolve('./public/admin_login.html'))
     res.render("admin_login")
 })
 
 router.get('/admin1', (req, res) => {
-    //res.sendFile(path.resolve('./public/admin1.html'))
     res.render("admin1")
 })
 
-router.get('/admin3', (req, res) => {
-    //res.sendFile(path.resolve('./public/admin3.html'))
-    res.render("admin3")
+router.get('/admin3', authaController.summary, (req, res) => {
+    console.log(req.semResult);
+    res.render("admin3", {
+        sem1: req.semResult[1], 
+        sem3: req.semResult[3], 
+        sem5: req.semResult[5], 
+        sem7: req.semResult[7],
+        pendingSem1: 50 - req.semResult[1],
+        pendingSem3: 50 - req.semResult[3],
+        pendingSem5: 50 - req.semResult[5],
+        pendingSem7: 50 - req.semResult[7],
+    }
+        )
 })
 
 // router.get('/sem/:id', (request, response) => {
@@ -29,17 +36,17 @@ router.get('/admin3', (req, res) => {
 //     response.status(200).send();
 // })
 
-router.get('/sem1', authaController.admin1, (req, res) => {
-    if( req.sem1Info) {
-        res.render('sem1', {
-            sem1: req.sem1Info
-        })
-    }
-    else{
-        res.redirect('/student')
-    }
+router.get('/sem/:semId', authaController.admin1, (req, res) => {
+    // if( req.sem1) {
+    //     res.render('sem1', {
+    //         sem1: req.sem1
+    //     })
+    // }
+    // else{
+    //     res.redirect('/student')
+    // }
     //res.sendFile(path.resolve('./public/examform.html'))
-    res.render("sem1")
+    res.render("sem1", {result: req.result})
 })
 
 // router.get('/sem1', (req, res) => {

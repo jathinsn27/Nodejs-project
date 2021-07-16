@@ -1,6 +1,6 @@
 const jwt = require('jsonwebtoken')
 const bcrypt = require('bcryptjs')
-const db = require('../database')
+const pool = require('../database')
 const { promisify } = require('util')
 const PASSWORD_HASH_SECRET = 8;
 var nodemailer = require('nodemailer');
@@ -19,7 +19,7 @@ const signin = async (req, res, next) => {
         })
     }
 
-    db.get().query('SELECT * FROM student_signup WHERE email = ?', [email] , async (error, results) => {
+    pool.query('SELECT * FROM student_signup WHERE email = ?', [email] , async (error, results) => {
        console.log('database:' ,results)
        console.log(pass)
        const isMatch = await bcrypt.compare(pass, results[0].password)
@@ -54,7 +54,7 @@ const register = (req, res) => {
     console.log(req.body);
 
     const { name, email, usn, num, date, password1, password2, validation } = req.body;
-    db.get().query('SELECT email FROM student_signup WHERE email = ?', [email], async (error, results) => {
+    pool.query('SELECT email FROM student_signup WHERE email = ?', [email], async (error, results) => {
     if(error){
         console.log(error);
     }
@@ -73,7 +73,7 @@ const register = (req, res) => {
     let hashedPassword = await bcrypt.hash(password1, PASSWORD_HASH_SECRET)
     console.log(hashedPassword)
 
-    db.get().query('INSERT INTO student_signup set ?', { 
+    pool.query('INSERT INTO student_signup set ?', { 
         name: name,
          email: email, 
          usn:usn, 
@@ -104,7 +104,7 @@ const isLoggedIn = async (req, res, next) => {
 
             console.log(decoded)
 
-            db.get().query('SELECT * FROM student_signup WHERE sno = ?', [decoded.sno], (error, result) => {
+            pool.query('SELECT * FROM student_signup WHERE sno = ?', [decoded.sno], (error, result) => {
             console.log(result)
 
             if(!result){
@@ -140,7 +140,7 @@ const examform = (req, res) => {
     console.log(req.body);
 
     const { name, email, usn, num, date, fname, fnum, mname, mnum, sex, country, state, registration, sem, course1, course2 ,course3 ,course4 , course5, validation} = req.body;
-    db.get().query('INSERT INTO examform set ?', { 
+    pool.query('INSERT INTO examform set ?', { 
         name: name,
         email: email, 
         usn:usn, 
@@ -177,7 +177,7 @@ const forgotpassword =(req, res) => {
     console.log(req.params.jwt);
     const decode = jwt.decode(req.params.jwt);
     console.log(decode)
-    db.get().query('SELECT email, sno FROM student_signup WHERE email = ?', [email],  (error, results) => {
+    pool.query('SELECT email, sno FROM student_signup WHERE email = ?', [email],  (error, results) => {
         if(error){
             console.log(error);
         } else if( results.length === 0 ){
@@ -240,7 +240,7 @@ const forgotpassword2 = async (req, res) => {
     let hashedPassword = await bcrypt.hash(password1, PASSWORD_HASH_SECRET)
     console.log(hashedPassword)
     let sql = `UPDATE student_signup SET password='${hashedPassword}' WHERE sno='${id}'`
-    db.get().query(sql, (error, results) => {
+    pool.query(sql, (error, results) => {
         if(error){
             console.error(error)  
         }
@@ -250,13 +250,13 @@ const forgotpassword2 = async (req, res) => {
         }
     })
     
-    // db.get().query('SELECT sno FROM student_signup WHERE sno = ?', [sno], (err, results) => { 
+    // pool.query('SELECT sno FROM student_signup WHERE sno = ?', [sno], (err, results) => { 
     //     if(err){
     //         console.error(err)
     //     }
     //     else{
     //         console.log(results)
-    //         // db.get().query(`UPDATE student_signup SET password=${password1} WHERE sno=id`,{
+    //         // pool.query(`UPDATE student_signup SET password=${password1} WHERE sno=id`,{
 
     //         // })
     //         // if(error){

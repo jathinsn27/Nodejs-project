@@ -2,7 +2,7 @@ const express = require('express')
 const path = require('path')
 const router = express.Router()
 const dotenv = require('dotenv')
-const mysql = require('mysql')
+const mysql = require('mysql2')
 const bodyParser = require('body-parser')
 const cookieParser = require('cookie-parser')
 const hbs = require('hbs')
@@ -13,7 +13,6 @@ const app = express()
 dotenv.config({ path: './.env'});
 
 const viewPath = path.join(__dirname, 'views')
-// app.use(express.static(publicDirectory))
 app.set('view engine', 'hbs')
 app.set('views', viewPath)
 app.use(cookieParser())
@@ -33,13 +32,19 @@ app.use('/admin', admin)
 app.use('/auth', auth)
 app.use('/autha', autha)
 
-db.connect((err) => {
-    if(err){
-        console.error('Unable to connect to database.')
-        throw err
-    }
-    console.log('Database connected...')
-    app.listen(3000, () => {
+const PORT = 3000;
+
+
+    app.listen(PORT, () => {
         console.log('server is listening on port 3000....')
     })
-})
+// db.connect((err) => {
+//     if(err){
+//         console.error('Unable to connect to database.')
+//         throw err
+//     }
+//     console.log('Database connected...')
+//     app.listen(3000, () => {
+//         console.log('server is listening on port 3000....')
+//     })
+// })

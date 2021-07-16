@@ -1,6 +1,6 @@
 const jwt = require('jsonwebtoken')
 const bcrypt = require('bcryptjs')
-const db = require('../database')
+const pool = require('../database')
 const { promisify } = require('util')
 const PASSWORD_HASH_SECRET = 8;
 var nodemailer = require('nodemailer');
@@ -14,7 +14,7 @@ const adminlogin = async (req, res, next) => {
         })
     }
 
-    db.get().query('SELECT * FROM admin_login WHERE email = ?', [email] , async (error, results) => {
+    pool.query('SELECT * FROM admin_login WHERE email = ?', [email] , async (error, results) => {
        console.log('database:' ,results)
        console.log(pass)
        const isMatch = await bcrypt.compare(pass, results[0].password)
@@ -59,7 +59,7 @@ const adminregister = (req, res) => {
     console.log(req.body);
 
     const { name, email, num, date, password1, password2, validation } = req.body;
-    db.get().query('SELECT email FROM admin_login WHERE email = ?', [email], async (error, results) => {
+    pool.query('SELECT email FROM admin_login WHERE email = ?', [email], async (error, results) => {
     if(error){
         console.log(error);
     }
@@ -78,7 +78,7 @@ const adminregister = (req, res) => {
     let hashedPassword = await bcrypt.hash(password1, PASSWORD_HASH_SECRET)
     console.log(hashedPassword)
 
-    db.get().query('INSERT INTO admin_login set ?', { 
+    pool.query('INSERT INTO admin_login set ?', { 
         name: name,
          email: email, 
          num:num, 
@@ -105,61 +105,162 @@ const adminregister = (req, res) => {
     //res.redirect('/student')
 }
 
-const adminInfo = (req, res, next) => {
-    try{
-    db.get().query('SELECT SUM(WHERE sem=1) FROM admin_login', (error, result) => {
-        if(error){
-            console.error(error)
-            return next()
-        }
-        else{
-            console.log(result)
-            sem1=result
-            return next()
-        }
-    }) 
-    }
-    catch (error) {
-        console.error(error)
-        return next()
-    }
-}
+// const adminInfo = (req, res, next) => {
+//     try{
+//     pool.query('SELECT SUM(WHERE sem=1) FROM admin_login', (error, result) => {
+//         if(error){
+//             console.error(error)
+//             return next()
+//         }
+//         else{
+//             for (let i=0; i<result.lenght; i++){
+//                 let dummy ={
+//                     'name': result[i].name,
+//                     'email': result[i].email,
+//                     'usn': result[i].usn,
+//                     'regisrtration': result[i].registration
+//                 }
+//             }
+//             sem1.push(dummy)
+//             // console.log(result)
+//             // sem1=result
+//             return next()
+//         }
+//     }) 
+//     }
+//     catch (error) {
+//         console.error(error)
+//         return next()
+//     }
+// }
 
 const admin1 = async (req, res, next) => {
+    const semNumber = req.params.semId;
+
     //console.log(req.cookies)
-    if( req.cookies.jatins_cookie){
         try{
-            const decoded = await promisify(jwt.verify)(req.cookies.jatins_cookie, process.env.JWT_SECRET)
-
-            console.log(decoded)
-
-            db.get().query('SELECT * FROM examform where sem=1', (error, result) => {
-            console.log(result)
-
-            if(!result){
-                return next();
+            pool.query('SELECT * FROM examform WHERE sem=?',[semNumber], (error, result) => {
+                if(error){
+                    console.error(error)
+                    return next()
+                }
+                else{
+                    let semResult = [];
+                    let length = Object.keys(result).length
+                    for (let i=0; i<length; i++){
+                        let dummy ={
+                            'name': result[i].name,
+                            'email': result[i].email,
+                            'usn': result[i].usn,
+                            'regisrtration': result[i].registration
+                        }
+                        semResult.push(dummy)
+                    }
+                    
+                    console.log(semResult)
+                    // console.log(result)
+                    // result=result
+                    req.result = semResult;
+                    // pool.release();
+                    return next()
+                }
+            }) 
             }
+            catch (error) {
+                console.error(error)
+                return next()
+            }
+    
+}
 
-            req.sem1Info = result[0];
-            return next();
+// const getCountPerSem = (sem) =>     pool.query('SELECT count(e.sem) FROM examform e WHERE e.sem=?', sem);
 
-            })
-
-        } catch (error) {
-            console.error(error)
-            return next();
-        } 
+const summary = async (req, res, next) => {
+    let semResult = {};
+    let sems = [1, 3,5 ,7];
+    try {
+        const sem1Result = await pool.query('SELECT count(*) FROM examform WHERE sem=1');
+        const sem3Result = await pool.query('SELECT count(*) FROM examform WHERE sem=3');
+        const sem5Result = await pool.query('SELECT count(*) FROM examform WHERE sem=5');
+        const sem7Result = await pool.query('SELECT count(*) FROM examform WHERE sem=7');
+        semResult = {
+            1: sem1Result[0]['count(*)'],
+            3: sem3Result[0]['count(*)'],
+            5: sem5Result[0]['count(*)'],
+            7: sem7Result[0]['count(*)']
+        }
+    } catch(e) {
+        console.error(e);
     }
-
-    else{
-        next()
-    }
+    // pool.query('SELECT count(e.sem) FROM examform e WHERE e.sem=1', (error, result) => {
+    //     if(error){
+    //         console.log(error)
+    //         // return next()
+    //     }
+    //     else{
+    //         sem1 = result[0]['count(e.sem)']
+    //         console.log(sem1)
+    //         semResult = {
+    //             ...semResult,
+    //             1: sem1
+    //         }
+    //         // return next()
+    //     }
+    // }) 
+    // pool.query('SELECT count(e.sem) FROM examform e WHERE e.sem=3', (error, result) => {
+    //     if(error){
+    //         console.log(error)
+    //         // return next()
+    //     }
+    //     else{
+    //         sem3 = result[0]['count(e.sem)']
+    //         console.log(sem3)
+    //         semResult = {
+    //             ...semResult,
+    //             3: sem3
+    //         }
+    //         // return next()
+    //     }
+    // }) 
+    // pool.query('SELECT count(e.sem) FROM examform e WHERE e.sem=5', (error, result) => {
+    //     if(error){
+    //         console.log(error)
+    //         // return next()
+    //     }
+    //     else{
+    //         sem5 = result[0]['count(e.sem)']
+    //         console.log(sem5)
+    //         semResult = {
+    //             ...semResult,
+    //             5: sem5
+    //         }
+    //         // return next()
+    //     }
+    // }) 
+    // pool.query('SELECT count(e.sem) FROM examform e WHERE e.sem=7', (error, result) => {
+    //     if(error){
+    //         console.log(error)
+    //         // return next()
+    //     }
+    //     else{
+    //         sem7 = result[0]['count(e.sem)']
+    //         console.log(sem7)
+    //         semResult = {
+    //             ...semResult,
+    //             7: sem7
+    //         }
+    //         // return next()
+    //     }
+    // })
+    req.semResult = semResult;
+    next();  
 }
 
 module.exports = {
     adminlogin,
     adminregister,
     adminLogout,
-    adminInfo,
-    admin1
+    // adminInfo,
+    admin1,
+    summary
 }
