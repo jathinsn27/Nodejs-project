@@ -8,7 +8,7 @@ const _ = require('lodash')
 const express = require('express')
 const student = require('../routes/student')
 
-const app = express();
+const app = express()
  
 const signin = async (req, res, next) => {
     const { email, pass } = req.body
