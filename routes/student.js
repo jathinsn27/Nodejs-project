@@ -6,27 +6,26 @@ const jwt = require('jsonwebtoken')
 
 const app = express()
 
-//let { student } = require('../data')
-
 router.get('/student', (req, res) => {
-    //res.sendFile(path.resolve('./views/login'))
+    
     res.render("login")
+    
 })
 
 router.get('/student/forgot_password', (req, res) => {
-    //res.sendFile(path.resolve('./public/forgot_password.html'))
+    
     res.render("forgot_password")
 })
 
 router.get('/student/forgot_password2/:jwt', (req, res) => {
     let mail_token = req.params.jwt
     exports.mail_token = mail_token
-    // const decode = jwt.decode(req.params.jwt)
+    
     res.render("forgot_password2")
 })
 
 router.get('/student/examform', authController.isLoggedIn, (req, res) => {
-    //console.log(req.user)
+    
     if( req.user ) {
         res.render('examform', {
             user: req.user
@@ -35,19 +34,16 @@ router.get('/student/examform', authController.isLoggedIn, (req, res) => {
     else{
         res.redirect('/student')
     }
-    //res.sendFile(path.resolve('./public/examform.html'))
 })
 
 router.get('/student/signup', (req, res) => {
-    //res.sendFile(path.resolve('./public/signup.html'))
     res.render("signup")
 })
 
 router.get('/student/confirm', (req, res) => {
-    //res.sendFile(path.resolve('/public/confirm.html'))
     res.render("confirm")
 })
 
 module.exports = router
-// exports.mail_token = mail_token
+
 

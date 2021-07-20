@@ -3,8 +3,6 @@ const path = require('path')
 const router = express.Router()
 const authaController = require('../controllers/autha')
 
-
-
 router.get('/', (req, res) => {
     res.render("admin_login")
 })
@@ -49,9 +47,6 @@ router.get('/sem/:semId', authaController.admin1, (req, res) => {
     res.render("sem1", {result: req.result})
 })
 
-// router.get('/sem1', (req, res) => {
-//     res.render("sem1")
-// })
 
 router.get('/sem3', (req, res) => {
     res.render("sem3")

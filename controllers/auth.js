@@ -250,24 +250,6 @@ const forgotpassword2 = async (req, res) => {
         }
     })
     
-    // pool.query('SELECT sno FROM student_signup WHERE sno = ?', [sno], (err, results) => { 
-    //     if(err){
-    //         console.error(err)
-    //     }
-    //     else{
-    //         console.log(results)
-    //         // pool.query(`UPDATE student_signup SET password=${password1} WHERE sno=id`,{
-
-    //         // })
-    //         // if(error){
-    //         //     console.error(error)  
-    //         // }
-    //         // else{
-    //         //     console.log(results)
-    //         //     res.status(200).redirect('../student')               
-    //         //}
-    //     }
-    // })
 }
 
 module.exports = {
