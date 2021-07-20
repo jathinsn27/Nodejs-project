@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Form Submission</title>
+<link rel="stylesheet" href="css/examform.css">
+  <script src="https://code.jquery.com/jquery-latest.min.js"></script>
+<script> 
+$(document).ready(function() {
+    $('#country').bind('change', function() {
+        var elements = $('div.container').children().hide(); 
+        var value = $(this).val();
+
+        if (value.length) { 
+            elements.filter('.' + value).show(); 
+        }
+    }).trigger('change');
+});
+</script>
+</head>
+<body>
+    <img src = "header.png" alt = "logo">
+    <div class="blue"><TT>Logged In As:Student</TT><TT class="right"><a href="login.html"><u>LOG OUT</u></a></TT></div>
+
+    <div class="card">
+        <img src="student.svg" alt="John" style="width:100%">
+        <h1>Name</h1>
+        <p class="title">Student, CS Department</p>
+        <p>BMS College of Engineering</p> 
+        <p><button>Student Profile</button></p>
+    </div>
+
+    <div>
+     <fieldset>
+        <legend class="formhead">Exam Form</legend>
+        <form action="confirm.html" method="POST">
+    
+    <label ><b>Name</b>
+    <input type="text" placeholder="Enter Name" name="uname" id="name" pattern="[a-zA-Z]+" title="Name shld contain only alphabets."  required></label><br>
+ 
+    <label ><b>Email</b>
+    <input type="email" id="email" placeholder="Enter Email Id" name="mail" pattern="[a-zA-Z0-9+_.]+@bmsce.ac.in" title="Enter college mail (eg:john.cs19@bmsce.ac.in)" required></label><br>
+
+    <label ><b>Usn</b>
+    <input type="text" id="usn" placeholder="Enter Usn(eg:1BM19CS067)" name="usn" pattern="1BM[0-9]{2}CS[0-9]{3}" required></label><br>
+    
+
+    <label ><b>Mobile Number</b>
+    <input type="text" id="mn" placeholder="Enter Mobile Number" name="unum" pattern="[0-9]{10}" title="Enter only 10 digits" required></label><br><br>
+    
+
+    <label ><b>DOB</b>
+    <input type="date" name="date" required></label><br><br>
+   
+
+    <label ><b>Fathers Name</b>
+    <input type="text" placeholder="Enter Fathers Name" name="date" pattern="[a-zA-Z]+"  required></label><br>
+    
+
+    <label><b>Mobile number</b>
+    <input type="text" id="mn" placeholder="Enter Fathers Mobile Number" name="date" pattern="([0-9]{10})" required></label><br>
+    <br>
+
+    <label><b>Mothers Name</b>
+    <input type="text" placeholder="Enter Mothers Name" name="date" pattern="[a-zA-Z]+" required></label><br>
+    <br>
+
+    <label><b>Mobile Number</b>
+    <input type="text" id="mn" placeholder="Enter Mothers Mobile Number" name= "number" pattern="[0-9]{10}" required></label><br>
+    <br>
+
+    <label><b>Gender</b>
+    <input type="radio" name="sex" value="Male" required>Male</label>
+ 
+    <label>
+    <input type="radio" name="sex" value="Female" required>Female</label>
+
+    <label>
+    <input type="radio" name="sex" value="Other" required>Others</label><br><br>
+
+    <label><b>Country</b></label>             
+            <select id="country" name="country" class="form-control">
+                  <option value="india" >Indian</option>
+                <option value="United Arab Emirates">United Arab Emirates</option>
+               
+                <option value="Nepal">Nepal</option>
+                <option value="Others">Others</option><br>
+            </select><br><br>
+            <div class="container">
+  
+            </div>
+                <div class="container">
+  <div id="state" class="india">
+    <b>State</b>
+     <select name="state" class="form-control">
+<option value="Andhra Pradesh">Andhra Pradesh</option>
+<option value="Andaman and Nicobar Islands">Andaman and Nicobar Islands</option>
+<option value="Arunachal Pradesh">Arunachal Pradesh</option>
+<option value="Assam">Assam</option>
+<option value="Bihar">Bihar</option>
+<option value="Chandigarh">Chandigarh</option>
+<option value="Chhattisgarh">Chhattisgarh</option>
+<option value="Dadar and Nagar Haveli">Dadar and Nagar Haveli</option>
+<option value="Daman and Diu">Daman and Diu</option>
+<option value="Delhi">Delhi</option>
+<option value="Lakshadweep">Lakshadweep</option>
+<option value="Puducherry">Puducherry</option>
+<option value="Goa">Goa</option>
+<option value="Gujarat">Gujarat</option>
+<option value="Haryana">Haryana</option>
+<option value="Himachal Pradesh">Himachal Pradesh</option>
+<option value="Jammu and Kashmir">Jammu and Kashmir</option>
+<option value="Jharkhand">Jharkhand</option>
+<option value="Karnataka">Karnataka</option>
+<option value="Kerala">Kerala</option>
+<option value="Madhya Pradesh">Madhya Pradesh</option>
+<option value="Maharashtra">Maharashtra</option>
+<option value="Manipur">Manipur</option>
+<option value="Meghalaya">Meghalaya</option>
+<option value="Mizoram">Mizoram</option>
+<option value="Nagaland">Nagaland</option>
+<option value="Odisha">Odisha</option>
+<option value="Punjab">Punjab</option>
+<option value="Rajasthan">Rajasthan</option>
+<option value="Sikkim">Sikkim</option>
+<option value="Tamil Nadu">Tamil Nadu</option>
+<option value="Telangana">Telangana</option>
+<option value="Tripura">Tripura</option>
+<option value="Uttar Pradesh">Uttar Pradesh</option>
+<option value="Uttarakhand">Uttarakhand</option>
+<option value="West Bengal">West Bengal</option>
+</select>
+            </div>
+                </div>
+
+<b>Registration</b>
+<label>
+    <input type="radio" name="Registration" value="registered" required>Registered</label>
+<label>
+    <input type="radio" name="Registration" value="registered" required>Re-registered</label><br>
+    <br>
+
+<b>Sem</b>
+     <select name="sem" class="form-control">
+        <option value="First Sem">1st Sem</option>
+        <option value="Third Sem">3rd Sem</option>
+        <option value="Fifth Sem">5th Sem</option>
+        <option value="Seventh Sem">7th Sem</option>
+    </select>
+    <br><br> 
+
+    <b>Courses</b>
+<label>
+    &nbsp;<input type="checkbox" name="validation" value="registered" >Course_1</label><br>
+<label>
+    &emsp;&emsp;&emsp;&emsp;&ensp;<input type="checkbox" name="validation" value="registered" >Course_2</label><br>
+<label>
+    &emsp;&emsp;&emsp;&emsp;&ensp;<input type="checkbox" name="validation" value="registered" >Course_3</label><br>
+<label>
+    &emsp;&emsp;&emsp;&emsp;&ensp;<input type="checkbox" name="validation" value="registered" >Course_4</label><br>
+<label>
+    &emsp;&emsp;&emsp;&emsp;&ensp;<input type="checkbox" name="validation" value="registered" >Course_5</label><br>
+<br>
+
+<input type="checkbox" name="validation">
+    I agree that all the information provided is correct to the best of my knowledge
+ <div class="submit">
+    <button type="submit" style="color:white"><b>Submit</b></button>
+</div>
+</form>
+</fieldset>
+<footer id="footer">
+    <p class="about">B.M.S. College of Engineering (BMSCE) was Founded in the year 1946 by Late Sri. B. M. Sreenivasaiah a great visionary and philanthropist and nurtured by his illustrious son Late Sri. B. S. Narayan. BMSCE is the first private sector initiative in engineering education in India. BMSCE has completed 70+ years of dedicated service in the field of Engineering Education. <a href="https://bmsce.ac.in/home/About-BMSCE">Know More</a></p>
+    <h3>Contact Us</h3>
+    <ul class="contact-us">
+        <li><strong>Address:</strong>
+        <br /> P.O. Box No.: 1908, Bull Temple Road,
+        <br /> Bangalore - 560 019
+        <br />Karnataka, India.
+        </li>
+        <li><strong>Fax:</strong>
+            <br />+91-80-26614357
+        </li>
+        <li><strong>Email:</strong>
+        <br /><a href="mailto:mail@example.com">info@bmsce.ac.in</a>
+        </li>
+    </ul>
+    <div id="icons">
+    <a href="https://www.instagram.com/"><i class="fab fa-instagram"> </i></a>
+    <a href="https://www.facebook.com/bmsce.official"><i class="fab fa-facebook"></i></a>
+    <a href="https://twitter.com/?lang=en"><i class="fab fa-twitter"></i></a>
+    <a href="https://www.linkedin.com/authwall?trk=gf&trkInfo=AQENGHT1TgwK7QAAAXZq5KygBlHnGUtHSItHhXmvxk5TeadeZBSQHIHtyhl5QHsmVbUgh13F-Qd4FNtCMIyF5lmkZBN0WZQSjZ95rBzmFWoYbRpyvx9cbyeqQzfCO5Qm9Z8Fqk8=&originalReferer=https://bmsce.ac.in/&sessionRedirect=https%3A%2F%2Fwww.linkedin.com%2Fcompany%2Fbmsce-official%2F"><i class="fab fa-linkedin"></i></a>
+    </div>
+    <div class="Copyright"><p>© Copyright 2019. All Rights Reserved.</p></div>
+</footer>
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
