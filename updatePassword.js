@@ -16,7 +16,7 @@ const forgotpassword =(req, res) => {
         service: 'gmail',
         auth: {
           user: 'testingdummybms@gmail.com',
-          pass: ''
+          pass: 'password'
         }
       })
       
